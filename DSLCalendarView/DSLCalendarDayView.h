@@ -46,6 +46,27 @@ enum {
 
 
 @interface DSLCalendarDayView : UIView
+@property (nonatomic, strong) UIColor *borderColor UI_APPEARANCE_SELECTOR;
+
+@property (nonatomic, strong) UIColor *bevelColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *bevelColorNotCurrentMonth UI_APPEARANCE_SELECTOR;
+
+@property (nonatomic, strong) UIColor *fillColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *fillColorNotCurrentMonth UI_APPEARANCE_SELECTOR;
+
+@property (nonatomic, strong) UIColor *textColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *selectedTextColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *textColorNotInMonth UI_APPEARANCE_SELECTOR;
+
+@property (nonatomic, strong) UIFont *textFont UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIFont *selectedTextFont UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIFont *textFontNotInMonth UI_APPEARANCE_SELECTOR;
+
+
+@property (nonatomic, strong) UIImage *selectedLeftBackgroundImage UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIImage *selectedRightBackgroundImage UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIImage *selectedMiddleBackgroundImage UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIImage *selectedWholeBackgroundImage UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic, copy) NSDateComponents *day;
 @property (nonatomic, assign) DSLCalendarDayViewPositionInWeek positionInWeek;
