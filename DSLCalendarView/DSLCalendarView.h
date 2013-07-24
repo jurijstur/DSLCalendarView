@@ -42,12 +42,14 @@
 @property (nonatomic, strong) DSLCalendarRange *selectedRange;
 @property (nonatomic, assign) BOOL showDayCalloutView;
 
++ (CGFloat) dayViewHeight;
++ (void) setDayViewHeight: (CGFloat) dayViewHeight;
+
 + (Class)monthSelectorViewClass;
 + (Class)monthViewClass;
 + (Class)dayViewClass;
 
 - (void)setVisibleMonth:(NSDateComponents *)visibleMonth animated:(BOOL)animated;
-
 @end
 
 
