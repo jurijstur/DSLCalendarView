@@ -96,13 +96,16 @@
     self.monthSelectorView = [[[self class] monthSelectorViewClass] view];
     self.monthSelectorView.backgroundColor = [UIColor clearColor];
     self.monthSelectorView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+    CGRect frame = self.monthSelectorView.frame;
+    frame.size.width = self.bounds.size.width;
+    self.monthSelectorView.frame = frame;
     [self addSubview:self.monthSelectorView];
     
     [self.monthSelectorView.backButton addTarget:self action:@selector(didTapMonthBack:) forControlEvents:UIControlEventTouchUpInside];
     [self.monthSelectorView.forwardButton addTarget:self action:@selector(didTapMonthForward:) forControlEvents:UIControlEventTouchUpInside];
 
     // Month views are contained in a content view inside a container view - like a scroll view, but not a scroll view so we can have proper control over animations
-    CGRect frame = self.bounds;
+    frame = self.bounds;
     frame.origin.x = 0;
     frame.origin.y = CGRectGetMaxY(self.monthSelectorView.frame);
     frame.size.height -= frame.origin.y;

@@ -99,6 +99,20 @@
     }
 }
 
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    CGFloat width = [self bounds].size.width;
+    CGFloat dayWidth = width / [[self dayLabels] count];
+    
+    for (UILabel *label in self.dayLabels) {
+        CGRect frame = [label frame];
+        frame.origin.x = roundf(label.tag * dayWidth);
+        frame.size.width = floorf(dayWidth);
+        [label setFrame:frame];
+    }
+}
+
 
 #pragma mark - UIView methods
 
