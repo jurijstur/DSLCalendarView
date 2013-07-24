@@ -41,12 +41,14 @@
 @property (nonatomic, copy) NSDateComponents *visibleMonth;
 @property (nonatomic, strong) DSLCalendarRange *selectedRange;
 
++ (CGFloat) dayViewHeight;
++ (void) setDayViewHeight: (CGFloat) dayViewHeight;
+
 + (Class)monthSelectorViewClass;
 + (Class)monthViewClass;
 + (Class)dayViewClass;
 
 - (void)setVisibleMonth:(NSDateComponents *)visibleMonth animated:(BOOL)animated;
-
 @end
 
 
