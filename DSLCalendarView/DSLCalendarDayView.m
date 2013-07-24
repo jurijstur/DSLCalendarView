@@ -81,8 +81,10 @@
 #pragma mark Properties
 
 - (void)setSelectionState:(DSLCalendarDayViewSelectionState)selectionState {
-    _selectionState = selectionState;
-    [self setNeedsDisplay];
+    if(_selectionState != selectionState) {
+        _selectionState = selectionState;
+        [self setNeedsDisplay];
+    }
 }
 
 - (void)setDay:(NSDateComponents *)day {
