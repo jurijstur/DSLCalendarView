@@ -115,7 +115,7 @@
 #pragma mark UIView methods
 
 - (void)drawRect:(CGRect)rect {
-    if ([self isMemberOfClass:[DSLCalendarDayView class]]) {
+    if ([self isKindOfClass:[DSLCalendarDayView class]]) {
         // If this isn't a subclass of DSLCalendarDayView, use the default drawing
         [self drawBackground];
         [self drawBorders];
