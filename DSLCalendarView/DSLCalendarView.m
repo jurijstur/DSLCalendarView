@@ -421,6 +421,11 @@
             self.draggedOffStartDay = YES;
         }
     }
+	
+	if(!self.allowRangeSelect) {
+		self.draggingStartDay = touchedView.day;
+		self.selectedRange = [[DSLCalendarRange alloc] initWithStartDay:touchedView.day endDay:touchedView.day];
+	}
 
     [self positionCalloutViewForDayView:touchedView];
 }
