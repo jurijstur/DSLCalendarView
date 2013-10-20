@@ -119,6 +119,10 @@
                         dayView.positionInWeek = DSLCalendarDayViewMidWeek;
                         break;
                 }
+				
+				if([self isToday:day]) {
+					dayView.isCurrentDay = YES;
+				}
                 
                 [self.dayViewsDictionary setObject:dayView forKey:[self dayViewKeyForDay:day]];
                 [self addSubview:dayView];
@@ -140,6 +144,20 @@
         fullFrame.size.width += width.floatValue;
     }
     self.frame = fullFrame;
+}
+
+- (BOOL) isToday:(NSDateComponents*)components {
+	NSCalendar *calendar = [NSCalendar currentCalendar];
+	NSInteger comps = (NSDayCalendarUnit | NSMonthCalendarUnit | NSYearCalendarUnit);
+	
+	NSDateComponents *date2Components = [calendar components:comps fromDate:[NSDate new]];
+	
+	NSDate *date1 = [calendar dateFromComponents:components];
+	NSDate *date2 = [calendar dateFromComponents:date2Components];
+	
+	NSComparisonResult result = [date1 compare:date2];
+	
+	return result != NSOrderedAscending && result != NSOrderedDescending;
 }
 
 - (void)updateDaySelectionStatesForRange:(DSLCalendarRange*)range {
