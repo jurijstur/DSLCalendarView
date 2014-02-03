@@ -97,7 +97,7 @@
     }
 
     do {
-        for (NSInteger column = startColumn; column < numberOfDaysPerWeek; column++) {
+        for (NSInteger column = startColumn; column < numberOfDaysPerWeek && day.day <= numberOfDaysInMonth; column++) {
             if (day.month == self.month.month) {
                 CGRect dayFrame = CGRectZero;
                 dayFrame.origin = nextDayViewOrigin;
