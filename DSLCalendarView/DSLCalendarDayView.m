@@ -62,12 +62,16 @@
         
         _fillColor = [UIColor colorWithWhite:245.0/255.0 alpha:1.0];
         _fillColorNotCurrentMonth = [UIColor colorWithWhite:225.0/255.0 alpha:1.0];
+        _fillColorCurrentDay = [UIColor colorWithWhite:245.0/255.0 alpha:1.0];
+        _fillColorSelectedDay = [UIColor colorWithWhite:245.0/255.0 alpha:1.0];
         
         _selectedTextColor = [UIColor colorWithWhite:66.0/255.0 alpha:1.0];
         _textColor = [UIColor whiteColor];
+        _textColorNotInMonth = _textColor;
         
         _textFont = [UIFont boldSystemFontOfSize:17.0];
         _selectedTextFont = _textFont;
+        _textFontNotInMonth = _textFont;
         
         _selectedLeftBackgroundImage = [[UIImage imageNamed:@"DSLCalendarDaySelection-left"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
         _selectedRightBackgroundImage = [[UIImage imageNamed:@"DSLCalendarDaySelection-right"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
@@ -127,10 +131,11 @@
 #pragma mark Drawing
 
 - (void)drawBackground {    
-    if (self.isInCurrentMonth) {
+    if (self.isCurrentDay) {
+        [self.fillColorCurrentDay setFill];
+    } else if (self.isInCurrentMonth) {
         [self.fillColor setFill];
-    }
-    else {
+    } else {
         [self.fillColorNotCurrentMonth setFill];
     }
     UIRectFill(self.bounds);
@@ -158,7 +163,10 @@
                 backgroundImage = [self selectedWholeBackgroundImage];
                 break;
         }
-        if(backgroundImage) {
+        if (self.fillColorSelectedDay) {
+            [self.fillColorSelectedDay setFill];
+            UIRectFill(self.bounds);
+        } else if (backgroundImage) {
             [backgroundImage drawInRect:self.bounds];
         }
     }
@@ -167,13 +175,13 @@
 - (void)drawBorders {
     CGContextRef context = UIGraphicsGetCurrentContext();
     
-    CGContextSetLineWidth(context, 1.0);
+    CGContextSetLineWidth(context, 2.0);
     
     CGContextSaveGState(context);    
     CGContextSetStrokeColorWithColor(context, self.borderColor.CGColor);
-    CGContextMoveToPoint(context, 0.5, self.bounds.size.height - 0.5);
-    CGContextAddLineToPoint(context, 0.5, 0.5);
-    CGContextAddLineToPoint(context, self.bounds.size.width - 0.5, 0.5);
+    CGContextMoveToPoint(context, 0, self.bounds.size.height);
+    CGContextAddLineToPoint(context, 0, 0);
+    CGContextAddLineToPoint(context, self.bounds.size.width, 0);
     CGContextStrokePath(context);
     CGContextRestoreGState(context);
     
@@ -184,34 +192,37 @@
     else {
         CGContextSetStrokeColorWithColor(context, self.bevelColorNotCurrentMonth.CGColor);
     }
-    CGContextMoveToPoint(context, self.bounds.size.width - 0.5, 0.0);
-    CGContextAddLineToPoint(context, self.bounds.size.width - 0.5, self.bounds.size.height - 0.5);
-    CGContextAddLineToPoint(context, 0.0, self.bounds.size.height - 0.5);
+    CGContextMoveToPoint(context, self.bounds.size.width, 0.0);
+    CGContextAddLineToPoint(context, self.bounds.size.width - 0, self.bounds.size.height);
+    CGContextAddLineToPoint(context, 0.0, self.bounds.size.height);
     CGContextStrokePath(context);
     CGContextRestoreGState(context);
 }
 
 - (void)drawDayNumber {
     UIFont *font;
+    UIColor *color;
     if (self.selectionState == DSLCalendarDayViewNotSelected) {
         if (self.isInCurrentMonth) {
-            [self.textColor set];
+            color = [self textColor];
             font = [self textFont];
         }
         else {
-            [self.textColorNotInMonth set];
+            color = [self textColorNotInMonth];
             font = [self textFontNotInMonth];
         }
     }
     else {
-        [self.selectedTextColor set];
+        color = [self selectedTextColor];
         font = [self selectedTextFont];
     }
     
-    CGSize textSize = [_labelText sizeWithFont:font];
+    CGSize textSize = [_labelText sizeWithAttributes:@{NSFontAttributeName              : font,
+                                                       NSForegroundColorAttributeName   : color}];
     
     CGRect textRect = CGRectMake(ceilf(CGRectGetMidX(self.bounds) - (textSize.width / 2.0)), ceilf(CGRectGetMidY(self.bounds) - (textSize.height / 2.0)), textSize.width, textSize.height);
-    [_labelText drawInRect:textRect withFont:font];
+    [_labelText drawInRect:textRect withAttributes:@{NSFontAttributeName              : font,
+                                                     NSForegroundColorAttributeName   : color}];
 }
 
 @end

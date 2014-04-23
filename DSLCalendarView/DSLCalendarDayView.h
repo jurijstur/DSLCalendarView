@@ -52,7 +52,9 @@ enum {
 @property (nonatomic, strong) UIColor *bevelColorNotCurrentMonth UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic, strong) UIColor *fillColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *fillColorCurrentDay UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *fillColorNotCurrentMonth UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *fillColorSelectedDay UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic, strong) UIColor *textColor UI_APPEARANCE_SELECTOR;
 @property (nonatomic, strong) UIColor *selectedTextColor UI_APPEARANCE_SELECTOR;
