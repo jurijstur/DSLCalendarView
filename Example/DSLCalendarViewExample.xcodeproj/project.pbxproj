@@ -43,6 +43,8 @@
 		C15EF2FD1649223900318CE2 /* Icon-57.png in Resources */ = {isa = PBXBuildFile; fileRef = C15EF2FC1649223900318CE2 /* Icon-57.png */; };
 		C15EF2FF1649230700318CE2 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C15EF2FE1649230700318CE2 /* Default@2x.png */; };
 		C15EF3011649230A00318CE2 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = C15EF3001649230A00318CE2 /* Default.png */; };
+		DEF8B2AE179FF68B00C02B22 /* calendar_selection.png in Resources */ = {isa = PBXBuildFile; fileRef = DEF8B2AC179FF68B00C02B22 /* calendar_selection.png */; };
+		DEF8B2AF179FF68B00C02B22 /* calendar_selection@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DEF8B2AD179FF68B00C02B22 /* calendar_selection@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +96,8 @@
 		C15EF2FC1649223900318CE2 /* Icon-57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-57.png"; sourceTree = "<group>"; };
 		C15EF2FE1649230700318CE2 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		C15EF3001649230A00318CE2 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		DEF8B2AC179FF68B00C02B22 /* calendar_selection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = calendar_selection.png; sourceTree = "<group>"; };
+		DEF8B2AD179FF68B00C02B22 /* calendar_selection@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "calendar_selection@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,6 +117,8 @@
 		B5A24DB015D81F3D00F07396 = {
 			isa = PBXGroup;
 			children = (
+				DEF8B2AC179FF68B00C02B22 /* calendar_selection.png */,
+				DEF8B2AD179FF68B00C02B22 /* calendar_selection@2x.png */,
 				C15EF3001649230A00318CE2 /* Default.png */,
 				C15EF2FE1649230700318CE2 /* Default@2x.png */,
 				C15EF2F716491EDA00318CE2 /* Default-568h@2x.png */,
@@ -288,6 +294,8 @@
 				C15EF2FD1649223900318CE2 /* Icon-57.png in Resources */,
 				C15EF2FF1649230700318CE2 /* Default@2x.png in Resources */,
 				C15EF3011649230A00318CE2 /* Default.png in Resources */,
+				DEF8B2AE179FF68B00C02B22 /* calendar_selection.png in Resources */,
+				DEF8B2AF179FF68B00C02B22 /* calendar_selection@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -54,17 +54,37 @@
     if (self != nil) {
         self.backgroundColor = [UIColor whiteColor];
         _positionInWeek = DSLCalendarDayViewMidWeek;
+
+        _borderColor = [UIColor colorWithWhite:255.0/255.0 alpha:1.0];
+        
+        _bevelColor = [UIColor colorWithWhite:205.0/255.0 alpha:1.0f];
+        _bevelColorNotCurrentMonth = [UIColor colorWithWhite:185.0/255.0 alpha:1.0f];
+        
+        _fillColor = [UIColor colorWithWhite:245.0/255.0 alpha:1.0];
+        _fillColorNotCurrentMonth = [UIColor colorWithWhite:225.0/255.0 alpha:1.0];
+        
+        _selectedTextColor = [UIColor colorWithWhite:66.0/255.0 alpha:1.0];
+        _textColor = [UIColor whiteColor];
+        
+        _textFont = [UIFont boldSystemFontOfSize:17.0];
+        _selectedTextFont = _textFont;
+        
+        _selectedLeftBackgroundImage = [[UIImage imageNamed:@"DSLCalendarDaySelection-left"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
+        _selectedRightBackgroundImage = [[UIImage imageNamed:@"DSLCalendarDaySelection-right"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
+        _selectedMiddleBackgroundImage = [[UIImage imageNamed:@"DSLCalendarDaySelection-middle"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
+        _selectedWholeBackgroundImage = [[UIImage imageNamed:@"DSLCalendarDaySelection"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)];
     }
     
     return self;
 }
 
-
 #pragma mark Properties
 
 - (void)setSelectionState:(DSLCalendarDayViewSelectionState)selectionState {
-    _selectionState = selectionState;
-    [self setNeedsDisplay];
+    if(_selectionState != selectionState) {
+        _selectionState = selectionState;
+        [self setNeedsDisplay];
+    }
 }
 
 - (void)setDay:(NSDateComponents *)day {
@@ -95,7 +115,7 @@
 #pragma mark UIView methods
 
 - (void)drawRect:(CGRect)rect {
-    if ([self isMemberOfClass:[DSLCalendarDayView class]]) {
+    if ([self isKindOfClass:[DSLCalendarDayView class]]) {
         // If this isn't a subclass of DSLCalendarDayView, use the default drawing
         [self drawBackground];
         [self drawBorders];
@@ -106,39 +126,40 @@
 
 #pragma mark Drawing
 
-- (void)drawBackground {
-    if (self.selectionState == DSLCalendarDayViewNotSelected) {
-        if (self.isInCurrentMonth) {
-            [[UIColor colorWithWhite:245.0/255.0 alpha:1.0] setFill];
-        }
-        else {
-            [[UIColor colorWithWhite:225.0/255.0 alpha:1.0] setFill];
-        }
-		if(_isCurrentDay) {
-            [[UIColor colorWithRed:0x08/255.0 green:0x7D/255.0 blue:0xE8/255.0 alpha:1.0] setFill];
-		}
-        UIRectFill(self.bounds);
+- (void)drawBackground {    
+    if (self.isInCurrentMonth) {
+        [self.fillColor setFill];
     }
     else {
+        [self.fillColorNotCurrentMonth setFill];
+    }
+    UIRectFill(self.bounds);
+    
+    if(self.selectionState != DSLCalendarDayViewNotSelected) {
+        UIImage *backgroundImage;
         switch (self.selectionState) {
             case DSLCalendarDayViewNotSelected:
+                backgroundImage = nil;
                 break;
                 
             case DSLCalendarDayViewStartOfSelection:
-                [[[UIImage imageNamed:@"DSLCalendarDaySelection-left"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)] drawInRect:self.bounds];
+                backgroundImage = [self selectedLeftBackgroundImage];
                 break;
                 
             case DSLCalendarDayViewEndOfSelection:
-                [[[UIImage imageNamed:@"DSLCalendarDaySelection-right"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)] drawInRect:self.bounds];
+                backgroundImage = [self selectedRightBackgroundImage];
                 break;
                 
             case DSLCalendarDayViewWithinSelection:
-                [[[UIImage imageNamed:@"DSLCalendarDaySelection-middle"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)] drawInRect:self.bounds];
+                backgroundImage = [self selectedMiddleBackgroundImage];
                 break;
                 
             case DSLCalendarDayViewWholeSelection:
-                [[[UIImage imageNamed:@"DSLCalendarDaySelection"] resizableImageWithCapInsets:UIEdgeInsetsMake(20, 20, 20, 20)] drawInRect:self.bounds];
+                backgroundImage = [self selectedWholeBackgroundImage];
                 break;
+        }
+        if(backgroundImage) {
+            [backgroundImage drawInRect:self.bounds];
         }
     }
 }
@@ -148,8 +169,8 @@
     
     CGContextSetLineWidth(context, 1.0);
     
-    CGContextSaveGState(context);
-    CGContextSetStrokeColorWithColor(context, [UIColor colorWithWhite:255.0/255.0 alpha:1.0].CGColor);
+    CGContextSaveGState(context);    
+    CGContextSetStrokeColorWithColor(context, self.borderColor.CGColor);
     CGContextMoveToPoint(context, 0.5, self.bounds.size.height - 0.5);
     CGContextAddLineToPoint(context, 0.5, 0.5);
     CGContextAddLineToPoint(context, self.bounds.size.width - 0.5, 0.5);
@@ -158,10 +179,10 @@
     
     CGContextSaveGState(context);
     if (self.isInCurrentMonth) {
-        CGContextSetStrokeColorWithColor(context, [UIColor colorWithWhite:205.0/255.0 alpha:1.0].CGColor);
+        CGContextSetStrokeColorWithColor(context, self.bevelColor.CGColor);
     }
     else {
-        CGContextSetStrokeColorWithColor(context, [UIColor colorWithWhite:185.0/255.0 alpha:1.0].CGColor);
+        CGContextSetStrokeColorWithColor(context, self.bevelColorNotCurrentMonth.CGColor);
     }
     CGContextMoveToPoint(context, self.bounds.size.width - 0.5, 0.0);
     CGContextAddLineToPoint(context, self.bounds.size.width - 0.5, self.bounds.size.height - 0.5);
@@ -171,18 +192,26 @@
 }
 
 - (void)drawDayNumber {
+    UIFont *font;
     if (self.selectionState == DSLCalendarDayViewNotSelected) {
-        [[UIColor colorWithWhite:66.0/255.0 alpha:1.0] set];
+        if (self.isInCurrentMonth) {
+            [self.textColor set];
+            font = [self textFont];
+        }
+        else {
+            [self.textColorNotInMonth set];
+            font = [self textFontNotInMonth];
+        }
     }
     else {
-        [[UIColor whiteColor] set];
+        [self.selectedTextColor set];
+        font = [self selectedTextFont];
     }
     
-    UIFont *textFont = [UIFont boldSystemFontOfSize:17.0];
-    CGSize textSize = [_labelText sizeWithFont:textFont];
+    CGSize textSize = [_labelText sizeWithFont:font];
     
     CGRect textRect = CGRectMake(ceilf(CGRectGetMidX(self.bounds) - (textSize.width / 2.0)), ceilf(CGRectGetMidY(self.bounds) - (textSize.height / 2.0)), textSize.width, textSize.height);
-    [_labelText drawInRect:textRect withFont:textFont];
+    [_labelText drawInRect:textRect withFont:font];
 }
 
 @end

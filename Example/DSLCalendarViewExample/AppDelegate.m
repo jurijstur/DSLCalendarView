@@ -9,11 +9,33 @@
 #import "AppDelegate.h"
 
 #import "ViewController.h"
+#import "DSLCalendarDayView.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [[DSLCalendarDayView appearance] setFillColorNotCurrentMonth:[UIColor colorWithRed:0.157 green:0.149 blue:0.227 alpha:1.000]];
+    [[DSLCalendarDayView appearance] setFillColor:[UIColor colorWithRed:0.157 green:0.149 blue:0.227 alpha:1.000]];
+    [[DSLCalendarDayView appearance] setTextFont:[UIFont fontWithName:@"AvenirNext-DemiBold" size:16.0f]];
+    [[DSLCalendarDayView appearance] setTextFontNotInMonth:[UIFont fontWithName:@"AvenirNext-Regular" size:16.0f]];
+    [[DSLCalendarDayView appearance] setSelectedTextFont:[UIFont fontWithName:@"AvenirNext-DemiBold" size:16.0f]];
+    
+    [[DSLCalendarDayView appearance] setBorderColor:[UIColor colorWithRed:0.102 green:0.098 blue:0.165 alpha:1.000]];
+    [[DSLCalendarDayView appearance] setBevelColor:[UIColor colorWithRed:0.173 green:0.165 blue:0.243 alpha:1.000]];
+    [[DSLCalendarDayView appearance] setBevelColorNotCurrentMonth:[UIColor colorWithRed:0.173 green:0.165 blue:0.243 alpha:1.000]];
+
+    UIImage *selectedImage = [[UIImage imageNamed:@"calendar_selection"] resizableImageWithCapInsets:UIEdgeInsetsMake(7, 9, 7, 9)];
+    [[DSLCalendarDayView appearance] setSelectedLeftBackgroundImage:selectedImage];
+    [[DSLCalendarDayView appearance] setSelectedRightBackgroundImage:selectedImage];
+    [[DSLCalendarDayView appearance] setSelectedMiddleBackgroundImage:selectedImage];
+    [[DSLCalendarDayView appearance] setSelectedWholeBackgroundImage:selectedImage];
+    
+    [[DSLCalendarDayView appearance] setTextColor:[UIColor whiteColor]];
+    [[DSLCalendarDayView appearance] setSelectedTextColor:[UIColor whiteColor]];
+    [[DSLCalendarDayView appearance] setTextColorNotInMonth:[UIColor colorWithRed:0.478 green:0.475 blue:0.522 alpha:1.000]];
+
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.viewController = [[ViewController alloc] initWithNibName:@"ViewController" bundle:nil];

@@ -54,7 +54,6 @@
 
 
 @implementation DSLCalendarView {
-    CGFloat _dayViewHeight;
     NSDateComponents *_visibleMonth;
 }
 
@@ -85,9 +84,7 @@
     return self;
 }
 
-- (void)commonInit {
-    _dayViewHeight = 44;
-    
+- (void)commonInit {    
     _visibleMonth = [[NSCalendar currentCalendar] components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSWeekdayCalendarUnit | NSCalendarCalendarUnit fromDate:[NSDate date]];
     _visibleMonth.day = 1;
     
@@ -96,13 +93,16 @@
     self.monthSelectorView = [[[self class] monthSelectorViewClass] view];
     self.monthSelectorView.backgroundColor = [UIColor clearColor];
     self.monthSelectorView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
+    CGRect frame = self.monthSelectorView.frame;
+    frame.size.width = self.bounds.size.width;
+    self.monthSelectorView.frame = frame;
     [self addSubview:self.monthSelectorView];
     
     [self.monthSelectorView.backButton addTarget:self action:@selector(didTapMonthBack:) forControlEvents:UIControlEventTouchUpInside];
     [self.monthSelectorView.forwardButton addTarget:self action:@selector(didTapMonthForward:) forControlEvents:UIControlEventTouchUpInside];
 
     // Month views are contained in a content view inside a container view - like a scroll view, but not a scroll view so we can have proper control over animations
-    CGRect frame = self.bounds;
+    frame = self.bounds;
     frame.origin.x = 0;
     frame.origin.y = CGRectGetMaxY(self.monthSelectorView.frame);
     frame.size.height -= frame.origin.y;
@@ -129,9 +129,18 @@
 + (Class)monthViewClass {
     return [DSLCalendarMonthView class];
 }
-
 + (Class)dayViewClass {
     return [DSLCalendarDayView class];
+}
+
+static CGFloat _dayViewHeight = 44.0f;
+
++ (CGFloat)dayViewHeight {
+    return _dayViewHeight;
+}
+
++ (void)setDayViewHeight:(CGFloat)dayViewHeight {
+    _dayViewHeight = dayViewHeight;
 }
 
 - (void)setSelectedRange:(DSLCalendarRange *)selectedRange {
@@ -204,7 +213,7 @@
     NSString *monthViewKey = [self monthViewKeyForMonth:month];
     DSLCalendarMonthView *monthView = [self.monthViews objectForKey:monthViewKey];
     if (monthView == nil) {
-        monthView = [[[[self class] monthViewClass] alloc] initWithMonth:month width:self.bounds.size.width dayViewClass:[[self class] dayViewClass] dayViewHeight:_dayViewHeight];
+        monthView = [[[[self class] monthViewClass] alloc] initWithMonth:month width:self.bounds.size.width dayViewClass:[[self class] dayViewClass] dayViewHeight:[[self class] dayViewHeight]];
         [self.monthViews setObject:monthView forKey:monthViewKey];
         [self.monthContainerViewContentView addSubview:monthView];
 
@@ -236,7 +245,7 @@
         
         // Check if this month should overlap the previous month
         if (![self monthStartsOnFirstDayOfWeek:offsetMonth]) {
-            nextVerticalPosition -= _dayViewHeight;
+            nextVerticalPosition -= [[self class] dayViewHeight];
         }
         
         // Create and position the month view
@@ -260,7 +269,7 @@
             startingVerticalPostion = monthView.frame.origin.y;
             
             if ([self monthStartsOnFirstDayOfWeek:offsetMonth]) {
-                startingVerticalPostion -= _dayViewHeight;
+                startingVerticalPostion -= [[self class] dayViewHeight];
             }
         }
         else if (monthOffset == -1 && monthComparisonResult == NSOrderedDescending) {
@@ -268,19 +277,19 @@
             startingVerticalPostion = monthView.frame.origin.y;
             
             if ([self monthStartsOnFirstDayOfWeek:offsetMonth]) {
-                startingVerticalPostion -= _dayViewHeight;
+                startingVerticalPostion -= [[self class] dayViewHeight];
             }
         }
 
         // Check if the active or following month start on the first day of the week
         if (monthOffset == 0 && [self monthStartsOnFirstDayOfWeek:offsetMonth]) {
             // If the active month starts on a monday, add a day view height to the resting height and move the resting position up so the user can drag into that previous month
-            restingVerticalPosition -= _dayViewHeight;
-            restingHeight += _dayViewHeight;
+            restingVerticalPosition -= [[self class] dayViewHeight];
+            restingHeight += [[self class] dayViewHeight];
         }
         else if (monthOffset == 1 && [self monthStartsOnFirstDayOfWeek:offsetMonth]) {
             // If the month after the target month starts on a monday, add a day view height to the resting height so the user can drag into that month
-            restingHeight += _dayViewHeight;
+            restingHeight += [[self class] dayViewHeight];
         }
     }
     
